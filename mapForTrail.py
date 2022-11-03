@@ -1,7 +1,20 @@
+from matplotlib import pyplot as plt
 import plotly.graph_objects as go
 import SimulationParameters
 import pandas as pd
+import plotly.express as px
+df = px.data.gapminder()
+import numpy as np
 
+# we will need the fig object later
+#fig = plt.figure
+
+
+
+
+
+
+#fig.update_traces
 
 #df = pd.read_csv('InterestingGPSCoordinates.csv')
 #site_lat = df.lat
@@ -9,7 +22,7 @@ import pandas as pd
 #locations_name = df.text
 
 
-fig = go.Figure()
+#fig = go.Figure()
 
 
 #fig.add_trace(go.Scattermapbox(
@@ -34,21 +47,57 @@ fig = go.Figure()
    # lon = [-73.605], lat = [45.51],
     # marker = {'size': 20, 'color': ["cyan"]}
     
+    ## Create path figure
+    # Generate curve data
+    
+t = np.linspace(-1, 1, 100)
+x = t + t ** 2
+y = t - t ** 2
+xm = np.min(x) - 1.5
+xM = np.max(x) + 1.5
+ym = np.min(y) - 1.5
+yM = np.max(y) + 1.5
+N = 50
+s = np.linspace(-1, 1, N)
+xx = s + s ** 2
+yy = s - s ** 2
 
 
 
 # defined search area
-fig = go.Figure(go.Scattermapbox(
-    mode = "markers",
-    lon = [SimulationParameters.Eborderline], lat = [SimulationParameters.Nborderline],
-    marker = {'size': 15, 'color': ["cyan"]}
+#fig = go.Figure(go.Scattermapbox(
+   # title_text = 'London to NYC Great Circle',
+ #   mode = "markers+lines",
+  #  lon = [SimulationParameters.Eborderline, -19.7], lat = [SimulationParameters.Nborderline,63.61],
+   # marker = {'size': 20, 'color': ["cyan"]}
     # lon2 = [SimulationParameters.Eborderline], lat2 = [SimulationParameters.Sborderline],
     # marker2 = {'size': 5, 'color': ["cyan"]},
     # lon3 = [SimulationParameters.Wborderline], lat3 = [SimulationParameters.Nborderline],
     # marker3 = {'size': 5, 'color': ["cyan"]},
     # lon4 = [SimulationParameters.Wborderline], lat4 = [SimulationParameters.Nborderline],
     # marker4 = {'size': 5, 'color': ["cyan"]}
-    ))
+    #))
+
+
+
+
+fig = go.Figure(go.Scattermapbox(
+    mode = "markers+lines",
+    lon=[-19.31731 ,-19.31722 ,-19.35614,-19.35846,-19.36822,-19.39307,-19.40086,-19.43458, -19.46,-19.46638, -19.47829,-19.49375, -19.38731, -19.31731, -19.31731, -19.31731, -19.31731, -19.51731, -19.531, -19.590, -19.700, -19.750, -19.800, -19.850], 
+    lat = [64.40748,64.41769,64.42856,64.42896,64.43110, 64.43137, 64.42832, 64.42063, 64.40855, 64.39119, 64.40748, 64.40300, 64.40000, 63.9232, 63.900, 63.890, 63.820, 63.740, 63.660, 63.620, 63.580, 63.565, 63.558, 63.550],
+    marker = {'size': 10, 'color': ["black"]},
+    line= {'width': 5, 'color': "darkgrey"}
+))
+
+
+#fig.add_trace(go.Scattermapbox(
+   # mode = "markers",
+    #lon = [-50, -60,40],
+    #lat = [30, 10, -20],
+    #marker = {'size': 100}))
+
+#line_geo(lat=[64.40748,64.41769,64.42856,64.42896,64.43110], lon=[-19.31731 ,-19.31722 ,-19.35614,-19.35846,-19.36822 ])
+#fig.update_geos(fitbounds="locations")
 
 fig.update_layout(
     mapbox = {
@@ -83,8 +132,10 @@ fig.update_layout(
                     }
                 }]
             },
+            
             'type': "fill", 'below': "traces", 'color': "royalblue"}]},
     margin = {'l':0, 'r':0, 'b':0, 't':0})
+
 
 
 fig.show()
