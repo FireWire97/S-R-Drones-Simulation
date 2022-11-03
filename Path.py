@@ -1,43 +1,92 @@
 #import map
+from math import cos, asin, sqrt, pi
 import SimulationParameters
 
 class Path:
     
     droneRange = 0
     
-    mapWidth = 100
-    mapLength = 100
+    mapWidthScale = 0
+    mapLengthScale = 0
     
+    # Not rounded versions for calculations
+    mapWidthScaleNR = 0
+    mapLengthScaleNR = 0
     
-    # Path should keep the information about which area has been scouted
-    scoutedArea = [["unknown"] * mapLength] * mapWidth
+    scoutedArea = [[]]
     
     def __init__(self):
         self.droneRange = SimulationParameters.DetectionRadius
+        self.initMap()
+        self.mapWidthCoordStep = abs(SimulationParameters.Eborderline - SimulationParameters.Wborderline) / self.mapWidthScaleNR
+        self.mapLengthCoordStep = abs(SimulationParameters.Nborderline - SimulationParameters.Sborderline) / self.mapLengthScaleNR
+        # Line below works only For positive long and negative lat, if we move from Iceland we have to change that
+        self.scoutedArea = [[Sector(SimulationParameters.Sborderline + j * self.mapLengthCoordStep, SimulationParameters.Wborderline - i * self.mapWidthCoordStep) for j in range(self.mapLengthScale)] for i in range(self.mapWidthScale)]
         
-    ## Assume map 0,0 point is here
-                # ----------------
-                # |              |
-                # |              |
-                # |              |
-                # |              |
-                # |+             |
-                # ----------------
+        
+    # In this function map is divided into search areas which size is defined by dron detection radius
+    def initMap(self):
+         # Calculate horizontal distance of the search area
+        self.mapWidthScale = self.distance(SimulationParameters.Eborderline, SimulationParameters.Sborderline, SimulationParameters.Wborderline, SimulationParameters.Sborderline)
+         # Calculate vertical distance of the search area
+        self.mapLengthScale = self.distance(SimulationParameters.Eborderline, SimulationParameters.Nborderline, SimulationParameters.Eborderline, SimulationParameters.Sborderline)
+        
+        # Convert from km to m
+        self.mapWidthScale *= 1000
+        self.mapLengthScale *= 1000
+        
+        # Divide by search radius
+        self.mapWidthScaleNR = self.mapWidthScale / SimulationParameters.DetectionRadius
+        self.mapLengthScaleNR = self.mapLengthScale / SimulationParameters.DetectionRadius
+        self.mapWidthScale = int(self.mapWidthScaleNR)
+        self.mapLengthScale = int(self.mapLengthScaleNR)
+
+    # Function used to calculate distances between two points with coordinates
+    def distance(self, lat1, lon1, lat2, lon2):
+        p = pi/180
+        a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p) * cos(lat2*p) * (1-cos((lon2-lon1)*p))/2
+        return 12742 * asin(sqrt(a)) #2*R*asin...
+        
                 
+    # def getCoordinates(self, width, length):
+    #     lat = SimulationParameters.Sborderline + length * self.mapLengthScale
+    #     lon = SimulationParameters.Nborderline + length * self.mapWidthScale
+    #     return [lon, lat]
+    
+    # def getScaleValues(self, lon, lat):
+    #     width = int(SimulationParameters.Sborderline)
                 
     def getPath(self, VerticalPos, HorizontalPos):
-        if VerticalPos > self.mapLength or HorizontalPos > self.mapWidth:
-            return "error"
-        else:
-            # Try moving up
-            if VerticalPos + self.droneRange <= self.mapLength:
-                if self.scoutedArea[HorizontalPos, VerticalPos + self.droneRange] == "unknown":
-                    return "up"
-            # Try moving right
-            if HorizontalPos + self.droneRange <= self.map:
-                if self.scoutedArea[HorizontalPos, VerticalPos + self.droneRange] == "unknown":
-                    return "up"
+        
+        # Try moving up
+        if self.scoutedArea[HorizontalPos][VerticalPos + 1].status == "not scouted":
+            return (HorizontalPos, VerticalPos + 1)
+        # Try moving right
+        if self.scoutedArea[HorizontalPos + 1][VerticalPos].status == "not scouted":
+            return (HorizontalPos + 1, VerticalPos)
+        # Try moving down
+        if VerticalPos > 0:
+            if self.scoutedArea[HorizontalPos][VerticalPos - 1].status == "not scouted":
+                return (HorizontalPos, VerticalPos - 1)
+        # Try moving left
+        if HorizontalPos > 0:
+            if self.scoutedArea[HorizontalPos - 1][VerticalPos].status == "not scouted":
+                return (HorizontalPos - 1, VerticalPos)
 
+
+class Sector:
+    
+    longitude = 0
+    latitiude = 0
+    status = "not initialized"
+    windspeed = 0
+    
+    
+    def __init__(self, long, lat):
+        self.longitude = long
+        self.latitiude = lat
+        self.status = "not scouted"
+        
 # Path flow
 # - Get current drone location
 # - Check if area above, below has been scouted...
