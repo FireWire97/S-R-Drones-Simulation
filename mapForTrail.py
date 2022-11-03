@@ -1,10 +1,41 @@
 import plotly.graph_objects as go
 import SimulationParameters
+import pandas as pd
 
-# fig = go.Figure(go.Scattermapbox(
-#     mode = "markers",
-#     lon = [-73.605], lat = [45.51],
-#     marker = {'size': 20, 'color': ["cyan"]}))
+
+#df = pd.read_csv('InterestingGPSCoordinates.csv')
+#site_lat = df.lat
+#site_lon = df.lon
+#locations_name = df.text
+
+
+fig = go.Figure()
+
+
+#fig.add_trace(go.Scattermapbox(
+ #       lat=site_lat,
+  #      lon=site_lon,
+   #     mode='markers',
+    #    marker=go.scattermapbox.Marker(
+     #       size=8,
+      #      color='rgb(242, 177, 172)',
+       #     opacity=0.7
+       # ),
+       # hoverinfo='none'
+   # ))
+
+#fig = go.Figure(go.Scattermapbox(
+ #   mode = "markers+text+lines",
+  #  lon = [-19.51, -19.4, -19.56], lat = [63.53, 63.1, 63.1],
+   # marker = {'size': 100, 'symbol': ["bus", "harbor", "airport"]},
+    #text = ["Bus", "Harbor", "airport"],textposition = "bottom right"))
+
+   #  mode = "markers",
+   # lon = [-73.605], lat = [45.51],
+    # marker = {'size': 20, 'color': ["cyan"]}
+    
+
+
 
 # defined search area
 fig = go.Figure(go.Scattermapbox(
@@ -54,8 +85,6 @@ fig.update_layout(
             },
             'type': "fill", 'below': "traces", 'color': "royalblue"}]},
     margin = {'l':0, 'r':0, 'b':0, 't':0})
-
-
 
 
 fig.show()
