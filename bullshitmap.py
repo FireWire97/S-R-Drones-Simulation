@@ -1,19 +1,14 @@
 import matplotlib.pyplot as plt
-import numpy as np
-import random
-import time
+
 
 
 class BullshitMap:
-    # drone_plt, img,fig,ax=None,None,None,None
 
-
-
-    def initMap(self):
+    def initMap(self, width_of_map, height_of_map):
         plt.ion()
         self.fig, self.ax = plt.subplots(figsize=(10,6))
         self.img = plt.imread("rsz_1map.png")
-        self.drawing = self.ax.imshow(self.img, extent=[0, self.img.shape[1], 0, self.img.shape[0]])
+        self.drawing = self.ax.imshow(self.img, extent=[0, width_of_map, 0, height_of_map])
 
 
     def init_drone(self, drone_x, drone_y):

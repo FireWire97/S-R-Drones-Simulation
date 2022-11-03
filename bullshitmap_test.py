@@ -5,7 +5,7 @@ droneX = 4
 droneY = 4
 
 map=BullshitMap()
-map.initMap()
+map.initMap(400, 250)
 map.init_drone(1,1) 
 map.init_lost_person(35,6)
 # time.sleep(2)
