@@ -13,12 +13,12 @@ def randomPath(x,y):
         decision = random.randrange(3)
         #go up
         if(decision == 0):
-            if(y < mapY):
+            if(y < mapY-1):
                 if(areaStatus[x][y+1] == "not scouted"):
                     return x,y+1
         #go right
         if(decision == 1):
-            if(x < mapX):
+            if(x < mapX-1):
                 if(areaStatus[x+1][y] == "not scouted"):
                     return x+1,y              
         #go down
