@@ -7,8 +7,10 @@ class BullshitMap:
     def initMap(self, width_of_map, height_of_map):
         plt.ion()
         self.fig, self.ax = plt.subplots(figsize=(10,6))
-        self.img = plt.imread("rsz_1map.png")
+        self.img = plt.imread("trail.png")
         self.drawing = self.ax.imshow(self.img, extent=[0, width_of_map, 0, height_of_map])
+        # plt.waitforbuttonpress()
+
 
 
     def init_drone(self, drone_x, drone_y):
@@ -20,7 +22,8 @@ class BullshitMap:
         
 
     def init_lost_person(self, person_x, person_y):
-        self.ax.plot(person_x, person_y, marker=5)
+        self.ax.plot(person_x, person_y, marker=5, markersize=10)
+        # plt.waitforbuttonpress()
 
 
     def update_drone_pos(self,drone_x, drone_y):
@@ -29,7 +32,7 @@ class BullshitMap:
 
         self.fig.canvas.draw()
         self.fig.canvas.flush_events() 
-        #plt.pause(0.0003)
+        plt.pause(0.0003)
 
         # plt.waitforbuttonpress()
         # self.fig.clear()
