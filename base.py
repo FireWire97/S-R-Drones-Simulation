@@ -3,7 +3,7 @@ import random
 from drone import Drone
 
 class BaseStation:
-    def __init__(self, size_of_the_map_x, size_of_the_map_y, number_of_drones, station_pos_x, station_pos_y, lost_person_x, lost_person_y, search_algorithm="random", drone_battery_capacity=50):
+    def __init__(self, size_of_the_map_x, size_of_the_map_y, number_of_drones, width_of_view, station_pos_x, station_pos_y, lost_person_x, lost_person_y, search_algorithm="random", drone_battery_capacity=50):
         self.mapX = size_of_the_map_x
         self.mapY = size_of_the_map_y
         self.stationX = station_pos_x
@@ -18,7 +18,7 @@ class BaseStation:
             # print(f'index: {index}')
             # globals()[f"drone_{index}"] =  Drone(1, 10000, self.stationX, self.stationY, lost_person_x, lost_person_y, self.stationX, self.stationY)
     
-        self.drone = Drone(1, drone_battery_capacity, self.stationX, self.stationY, lost_person_x, lost_person_y, self.stationX, self.stationY)
+        self.drone = Drone(1, width_of_view, drone_battery_capacity, self.stationX, self.stationY, lost_person_x, lost_person_y, self.stationX, self.stationY)
         # self.coveredArea.add(self.drone.get_position())
 
     def randomPath(self, x,y):
