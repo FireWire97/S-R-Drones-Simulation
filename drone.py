@@ -1,4 +1,4 @@
-class Drone:
+class Drone():
     # properties
     speed = 0
     previous_direction = None
@@ -10,6 +10,7 @@ class Drone:
 
     def __init__(
         self,
+        id,
         width_Of_View,
         battery,
         starting_X,
@@ -19,6 +20,7 @@ class Drone:
         Station_X,
         Station_Y,
     ):
+        self.id = id
         if width_Of_View % 2 != 1:
             raise Exception("Can only be initialised with ODD number for width_Of_View")
         self.battery = battery
@@ -83,6 +85,15 @@ class Drone:
         steps = abs(difference[0]) + abs(difference[1])
         return steps
 
+    def get_position(self):
+        return self.pos
+
+    def set_position(self, x_pos, y_pos):
+        self.pos = (x_pos, y_pos)
+
+    def get_id(self):
+        return self.id
+
     # def charge_battery(self):
 
 
@@ -99,7 +110,7 @@ class Drone:
 #      |             +
 #      ---------------+
 #                    +
-
+"""
 drone = Drone(
     width_Of_View=5,
     battery=14,
@@ -145,3 +156,4 @@ drone.move("north")
 print(drone)
 drone.move("north")
 print(drone)
+"""

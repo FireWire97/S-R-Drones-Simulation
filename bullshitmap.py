@@ -12,7 +12,7 @@ class BullshitMap:
 
 
     def init_drone(self, drone_x, drone_y):
-        self.drone_plt, =self.ax.plot( drone_x, drone_y, marker="s")
+        self.drone_plt, =self.ax.plot( drone_x, drone_y, marker="s", color = "blue")
         # plt.waitforbuttonpress()
 
         # self.ax.imshow(self.img, extent=[0, self.img.shape[1], 0, self.img.shape[0]])
@@ -28,7 +28,7 @@ class BullshitMap:
         self.drone_plt.set_ydata(drone_y)
 
         self.fig.canvas.draw()
-        self.fig.canvas.flush_events() 
+        self.fig.canvas.flush_events()
         #plt.pause(0.0003)
 
         # plt.waitforbuttonpress()
