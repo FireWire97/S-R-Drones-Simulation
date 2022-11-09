@@ -14,7 +14,7 @@ class BullshitMap:
 
 
     def init_drone(self, drone_x, drone_y):
-        self.drone_plt, =self.ax.plot( drone_x, drone_y, marker="s")
+        self.drone_plt, =self.ax.plot( drone_x, drone_y, marker="s", markersize=10)
         # plt.waitforbuttonpress()
 
         # self.ax.imshow(self.img, extent=[0, self.img.shape[1], 0, self.img.shape[0]])
@@ -22,7 +22,12 @@ class BullshitMap:
         
 
     def init_lost_person(self, person_x, person_y):
-        self.ax.plot(person_x, person_y, marker=5, markersize=10)
+        self.ax.plot(person_x, person_y, marker="*", markersize=15, color="c")
+        # plt.waitforbuttonpress()
+
+
+    def init_station(self, person_x, person_y):
+        self.ax.plot(person_x, person_y, marker="P", markersize=20, color="k")
         # plt.waitforbuttonpress()
 
 
