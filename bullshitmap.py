@@ -36,6 +36,15 @@ class BullshitMap:
 
         # plt.waitforbuttonpress()
         # self.fig.clear()
+        
+       
+    def DrawPath(self,data):
+        x = [p[0] for p in data]
+        y = [p[1] for p in data]
+        #_, ax = plt.subplots()
+      #  self.ax.set_xticks(range(60))
+     #   self.ax.set_yticks(range(60))
+        self.ax.plot(x, y, 'o-', color='blue')
 
     def mark_searched_area(self,X,Y):
         self.ax.plot(X, Y, marker='X', color='red')
