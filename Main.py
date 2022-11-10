@@ -5,11 +5,8 @@ import random
 import time
 from datetime import datetime
 import drone
-# random.seed(datetime.now())
 
-# INIT OF THE MAP SIZE
-# mapX = 30
-# mapY = 18
+# MAP CONSTANTS
 stationX = 12
 stationY = 6
 
@@ -23,29 +20,14 @@ drones = []
 # =============================
 # INIT OF THE DRONE AND LOST
 # =============================
-droneX = random.randrange(mapX-1)
-droneY = random.randrange(mapY-1)
+# droneX = random.randrange(mapX-1)
+# droneY = random.randrange(mapY-1)
 lostX = random.randrange(mapX-1)
 lostY = random.randrange(mapY-1)
 
-# FOR TESTING
-# droneX = 6
-# droneY = 6
-# lostX = 12
-# lostY = 3
-
 areaStatus = [["not scouted" for y in range(mapY)] for x in range(mapX)] 
-areaStatus[droneX][droneY] = "scouted"
+# areaStatus[droneX][droneY] = "scouted"
 areaStatus[lostX][lostY] = "bingo"
-
-# simpleMap.initMap(mapX, mapY)
-for i in range(0,number_of_drones):
-    drone_pos_X = random.randrange(mapX)
-    drone_pos_Y = random.randrange(mapY)
-    areaStatus[drone_pos_X][drone_pos_Y] = "scouted"
-    # simpleMap.init_drone(drone_pos_X, drone_pos_Y)
-    added_drone = drone.Drone(i,drone_width_Of_View,drone_battery,drone_pos_X,drone_pos_Y,0,0,0,0)
-    drones.append(added_drone)
 
 # INIT THE BASE STATION
 base = BaseStation( mapX, mapY, number_of_drones, drone_width_Of_View, stationX, stationY, lostX, lostY, drone_battery_capacity=50 )
@@ -57,14 +39,16 @@ simpleMap.initMap(mapX, mapY)
 simpleMap.init_lost_person(lostX ,lostY)
 simpleMap.init_station(stationX ,stationY)
 
-simpleMap.init_drone(dronePos[0], dronePos[1])
-
-
-
-areaStatus[lostX][lostY] = "bingo"
-simpleMap.init_lost_person(lostX ,lostY)
-
-######
+# simpleMap.initMap(mapX, mapY)
+for i in range(0,number_of_drones):
+    drone_pos_X = stationX
+    drone_pos_Y = stationY
+    # drone_pos_X = random.randrange(mapX)
+    # drone_pos_Y = random.randrange(mapY)
+    areaStatus[drone_pos_X][drone_pos_Y] = "scouted"
+    simpleMap.init_drone(drone_pos_X, drone_pos_Y)
+    added_drone = drone.Drone(i,drone_width_Of_View,drone_battery,drone_pos_X,drone_pos_Y,0,0,0,0)
+    drones.append(added_drone)
 
 def randomPath(x,y):
     nextMoveValid = False
