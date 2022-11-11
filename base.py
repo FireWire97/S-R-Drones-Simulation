@@ -1,4 +1,4 @@
-from bullshitmap import BullshitMap
+from pyplotmap import PyplotMap
 import random
 from drone import Drone
 
@@ -18,7 +18,7 @@ class BaseStation:
             # print(f'index: {index}')
             # globals()[f"drone_{index}"] =  Drone(1, 10000, self.stationX, self.stationY, lost_person_x, lost_person_y, self.stationX, self.stationY)
     
-        self.drone = Drone(1, width_of_view, drone_battery_capacity, self.stationX, self.stationY, lost_person_x, lost_person_y, self.stationX, self.stationY)
+        # self.drone = Drone(1, width_of_view, drone_battery_capacity, self.stationX, self.stationY, lost_person_x, lost_person_y, self.stationX, self.stationY)
         # self.coveredArea.add(self.drone.get_position())
 
     def randomPath(self, x,y):

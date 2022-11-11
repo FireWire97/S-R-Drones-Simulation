@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 
 
-class BullshitMap:
+class PyplotMap:
 
     def initMap(self, width_of_map, height_of_map):
         plt.ion()
@@ -14,7 +14,7 @@ class BullshitMap:
 
 
     def init_drone(self, drone_x, drone_y):
-        self.drone_plt, =self.ax.plot( drone_x, drone_y, marker="s", color = "blue")
+        self.drone_plt, =self.ax.plot( drone_x, drone_y, marker="s", markersize=10, color = "blue")
         # plt.waitforbuttonpress()
 
         # self.ax.imshow(self.img, extent=[0, self.img.shape[1], 0, self.img.shape[0]])
