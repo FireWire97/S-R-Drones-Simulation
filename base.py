@@ -1,5 +1,7 @@
 from distutils.file_util import move_file
-from bullshitmap import BullshitMap
+
+# from bullshitmap import BullshitMap
+from pyplotmap import PyplotMap
 import random
 from drone import Drone
 from snake import snake_algoithm_generator

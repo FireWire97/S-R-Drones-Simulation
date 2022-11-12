@@ -223,6 +223,20 @@ class Drone:
 #      ---------------+
 #                    +
 
+# drone = Drone(
+#     width_Of_View=5,
+#     battery=14,
+#     #
+#     starting_X=10,
+#     starting_Y=10,
+#     #
+#     Station_X=20,
+#     Station_Y=20,
+#     #
+#     person_X=15,
+#     person_Y=15,
+# )
+
 
 # def charge_battery(self):
 
@@ -278,35 +292,3 @@ class Drone:
 #     person_X=15,
 #     person_Y=15,
 # )
-
-# print("starting postition:")
-# print(drone)
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)
-# drone.move("north")
-# print(drone)

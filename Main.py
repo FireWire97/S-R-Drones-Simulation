@@ -1,8 +1,11 @@
+from numpy import arange
 import Path
 from base import BaseStation
-from bullshitmap import BullshitMap
+from pyplotmap import PyplotMap
 import random
 import time
+import math
+import numpy as np
 from datetime import datetime
 
 # random.seed(datetime.now())
@@ -14,7 +17,7 @@ from datetime import datetime
 
 
 results = []
-nuberOfSimulations = 10
+nuberOfSimulations = 50
 isSimulationShown = False
 isRandomLocation = True
 
@@ -30,10 +33,10 @@ mapY = 36
 stationX = 22
 stationY = 14
 # LOCATION OF THE LOST PERSON
-lostX = random.randint(0, mapX - 1)
-lostY = random.randint(0, mapY - 1)
+lostX = 3
+lostY = 11
 # NUMBER OF DRONES
-numberOfDrones = 3
+numberOfDrones = 5
 batteryCapacity = 400
 
 
@@ -50,7 +53,7 @@ for i in range(nuberOfSimulations):
         dronePosistions = base.getPositionOfDrones()
 
         # INIT OF THE MAP
-        simpleMap = BullshitMap()
+        simpleMap = PyplotMap()
         simpleMap.initMap(mapX, mapY)
         simpleMap.init_lost_person(lostX, lostY)
         simpleMap.init_station(stationX, stationY)
