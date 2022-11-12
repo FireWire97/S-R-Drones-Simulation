@@ -1,4 +1,4 @@
-import bullshitmap
+import pyplotmap
 import sys
 import random
 import time
@@ -11,7 +11,7 @@ mapXX = 60
 mapYY = 36
 
 # PathScheduler = Path.Path()
-SimpleMap = bullshitmap.BullshitMap()
+SimpleMap = pyplotmap.PyplotMap()
 
 # areaStatus = [["not scouted"] * mapY] * mapX
 areaStatus = [["not scouted" for y in range(mapYY)] for x in range(mapXX)]
