@@ -7,6 +7,7 @@ import time
 import math
 import numpy as np
 from datetime import datetime
+from Pathfinder import getRealisticlyLost
 
 # random.seed(datetime.now())
 
@@ -44,8 +45,7 @@ for i in range(nuberOfSimulations):
 
     tickCount = 1
     if isRandomLocation:
-        lostX = random.randint(0, mapX - 1)
-        lostY = random.randint(0, mapY - 1)
+        [lostX, lostY] = getRealisticlyLost(mapX, mapY)
 
     try:
         # INIT THE BASE STATION
