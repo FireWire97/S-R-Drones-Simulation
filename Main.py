@@ -8,6 +8,7 @@ import math
 import numpy as np
 from datetime import datetime
 from Pathfinder import getRealisticlyLost
+import sys
 
 # random.seed(datetime.now())
 
@@ -18,9 +19,18 @@ from Pathfinder import getRealisticlyLost
 
 
 results = []
-nuberOfSimulations = 50
+#nuberOfSimulations = 50
 isSimulationShown = False
 isRandomLocation = True
+
+# added to make arguments in terminal
+try:
+   numberOfDrones = int(sys.argv[1])
+   batteryCapacity = int(sys.argv[2])
+   nuberOfSimulations = int(sys.argv[3])
+except:
+   print("Error: python3 Main.py <numberOfDrones> <batteryCapacity> <number of simulations>")
+   sys.exit(1)
 
 
 # ==================================
@@ -37,8 +47,8 @@ stationY = 14
 lostX = 3
 lostY = 11
 # NUMBER OF DRONES
-numberOfDrones = 5
-batteryCapacity = 400
+#numberOfDrones = 5
+#batteryCapacity = 400
 
 
 for i in range(nuberOfSimulations):
