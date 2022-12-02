@@ -132,58 +132,79 @@ def getRealisticlyLost(mapSizeX,mapSizeY):
                
     return [lostX, lostY]
 
-def pathfollow_algoithm_generator(mapX, mapY, stationX, stationY):
+def pathfollow_algoithm_generator(mapX, mapY, stationX, stationY, numberOfDrones):
     localAreaStatus = [["not scouted" for y in range(mapY)] for x in range(mapX)]
     tempPointsToSearch = []
     points = getIntigerPoints()
     result = []
-    pos = (stationX, stationY)
+    pos = [(stationX, stationY) for u in range(numberOfDrones)]
     localAreaStatus[stationX][stationY] = "scouted"
-    tempPos = pos
-    for i in range(len(points)):
-        tempPointsToSearch = []
-        for j in range(min(pos[0], points[i][0]), max(pos[0], points[i][0])):
-            for k in range(min(pos[1], points[i][1]), max(pos[1], points[i][1])):
-                if localAreaStatus[j][k] == "not scouted":
-                    # if j % 2 == 0:
-                    tempPointsToSearch.append((j,k))
-                    # else:
-                    #     tempPointsToSearch.append((j,max(pos[1], points[i][1]) - k - 1 + min(pos[1], points[i][1])))
-        # tempPointsToSearch.remove(pos)
-        # tempPointsToSearch.remove(points[i])
-        while(len(tempPointsToSearch) != 0):
-            d = 9999
-            bestd = 9999
-            index = 0
-            #Find closest pint to the pos
-            for l in range(len(tempPointsToSearch)):
-                d = abs(pos[0] - tempPointsToSearch[l][0]) + abs(pos[1] - tempPointsToSearch[l][1])
-                if d < bestd:
-                    index = l
-                    bestd = d
-        # for l in range(len(tempPointsToSearch)):
-        # result.append(moveFromAtoB(pos, points[i]))
-            while pos != tempPointsToSearch[index]:
-                if pos[0] != tempPointsToSearch[index][0]:
-                    if pos[0] > tempPointsToSearch[index][0]:
-                        pos = (pos[0] - 1, pos[1])
-                        localAreaStatus[pos[0]][pos[1]] = "scouted"
-                    else:
-                        pos = (pos[0] + 1, pos[1])
-                        localAreaStatus[pos[0]][pos[1]] = "scouted"
-                else:
-                    if pos[1] > tempPointsToSearch[index][1]:
-                        pos = (pos[0], pos[1] - 1)
-                        localAreaStatus[pos[0]][pos[1]] = "scouted"
-                    else:
-                        pos = (pos[0], pos[1] + 1)
-                        localAreaStatus[pos[0]][pos[1]] = "scouted"
-                
-                
-                result.append(pos)
-            
-            tempPointsToSearch.remove(pos)
+    # droneOffset = [[]]
+    arr1 = []
+    arr2 = []
     
+    if numberOfDrones == 0:
+        return 0
+    
+    if numberOfDrones == 1:
+        droneOffset = [(-1,1,-1,1)]
+    elif numberOfDrones == 2:
+        droneOffset = [(-1,-1,1,1),(1,1,-1,-1)]
+    elif numberOfDrones == 3:
+        droneOffset = [(-1,1,-1,1),(-1,0,0,1),(0,1,-1,0)]
+    elif numberOfDrones == 4:
+        droneOffset = [(-1,0,-1,0),(-1,0,0,1),(0,1,-1,0),(0,1,0,1)]
+    else:
+        droneOffset = [(random.randint(-1,1),random.randint(-1,1),random.randint(-1,1),random.randint(-1,1)) for p in range(numberOfDrones)]
+        
+    # Offset from the trail
+    for offset in range(40):
+        for drone in range(numberOfDrones):
+            #Going through all the points in the trail
+            for i in range(len(points)):
+                #Points to be scouted (don't include transit points)
+                tempPointsToSearch = []
+                for j in range(min(pos[drone][0], points[i][0] + (offset * droneOffset[drone][0])), max(pos[drone][0], points[i][0] + (offset * droneOffset[drone][1]))):
+                    for k in range(min(pos[drone][1], points[i][1] + (offset * droneOffset[drone][2])), max(pos[drone][1], points[i][1] + (offset * droneOffset[drone][3]))):
+                        if j >= 0 and j < mapX and k >= 0 and k < mapY:
+                            if localAreaStatus[j][k] == "not scouted":
+                                tempPointsToSearch.append((j,k))
+                                
+                while(len(tempPointsToSearch) != 0):
+                    d = 9999
+                    bestd = 9999
+                    index = 0
+                    #Find closest pint to the pos
+                    for l in range(len(tempPointsToSearch)):
+                        d = abs(pos[drone][0] - tempPointsToSearch[l][0]) + abs(pos[drone][1] - tempPointsToSearch[l][1])
+                        if d < bestd:
+                            index = l
+                            bestd = d
+                
+                    while pos[drone] != tempPointsToSearch[index]:
+                        if pos[drone][0] != tempPointsToSearch[index][0]:
+                            if pos[drone][0] > tempPointsToSearch[index][0]:
+                                pos[drone] = (pos[drone][0] - 1, pos[drone][1])
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                            else:
+                                pos[drone] = (pos[drone][0] + 1, pos[drone][1])
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                        else:
+                            if pos[drone][1] > tempPointsToSearch[index][1]:
+                                pos[drone] = (pos[drone][0], pos[drone][1] - 1)
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                            else:
+                                pos[drone] = (pos[drone][0], pos[drone][1] + 1)
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                        
+                        if drone == 0:
+                            arr1.append(pos[drone])
+                        else:
+                            arr2.append(pos[drone])
+                    
+                    tempPointsToSearch.remove(pos[drone])
+        
+    result = arr1
     return result
     
 def moveFromAtoB(pointA, pointB):

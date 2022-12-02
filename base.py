@@ -52,7 +52,8 @@ class BaseStation:
                 size_of_the_map_x,
                 size_of_the_map_y,
                 station_pos_x,
-                station_pos_y
+                station_pos_y,
+                number_of_drones
             )
             self.listOfMoves.append(moves)
 

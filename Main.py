@@ -18,8 +18,8 @@ from Pathfinder import getRealisticlyLost
 
 
 results = []
-nuberOfSimulations = 1
-isSimulationShown = True
+nuberOfSimulations =20
+isSimulationShown = False
 isRandomLocation = True
 
 
