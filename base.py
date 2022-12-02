@@ -9,7 +9,7 @@ from Pathfinder import pathfollow_algoithm_generator
 
 
 class BaseStation:
-    def __init__(self, size_of_the_map_x, size_of_the_map_y, number_of_drones, station_pos_x, station_pos_y, lost_person_x, lost_person_y, search_algorithm="pathfollow", drone_battery_capacity=500):
+    def __init__(self, size_of_the_map_x, size_of_the_map_y, number_of_drones, station_pos_x, station_pos_y, lost_person_x, lost_person_y, search_algorithm="snake", drone_battery_capacity=500):
         self.mapX = size_of_the_map_x
         self.mapY = size_of_the_map_y
         self.stationX = station_pos_x

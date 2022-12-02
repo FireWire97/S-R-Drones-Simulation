@@ -136,39 +136,71 @@ def pathfollow_algoithm_generator(mapX, mapY, stationX, stationY, numberOfDrones
     localAreaStatus = [["not scouted" for y in range(mapY)] for x in range(mapX)]
     tempPointsToSearch = []
     points = getIntigerPoints()
-    result = []
+    result = [[]]
     pos = [(stationX, stationY) for u in range(numberOfDrones)]
     localAreaStatus[stationX][stationY] = "scouted"
     # droneOffset = [[]]
+    smolArr = []
     arr1 = []
     arr2 = []
+    arr3 = []
+    arr4 = []
+    arr5 = []
     
-    if numberOfDrones == 0:
-        return 0
+    offsetLimit = 60
+    
     
     if numberOfDrones == 1:
         droneOffset = [(-1,1,-1,1)]
     elif numberOfDrones == 2:
-        droneOffset = [(-1,-1,1,1),(1,1,-1,-1)]
+        droneOffset = [(-1,0,-1,0),(0,1,0,1)]
     elif numberOfDrones == 3:
         droneOffset = [(-1,1,-1,1),(-1,0,0,1),(0,1,-1,0)]
     elif numberOfDrones == 4:
         droneOffset = [(-1,0,-1,0),(-1,0,0,1),(0,1,-1,0),(0,1,0,1)]
-    else:
+    elif numberOfDrones == 5:
         droneOffset = [(random.randint(-1,1),random.randint(-1,1),random.randint(-1,1),random.randint(-1,1)) for p in range(numberOfDrones)]
+    else:
+        return 0
         
     # Offset from the trail
-    for offset in range(40):
-        for drone in range(numberOfDrones):
-            #Going through all the points in the trail
-            for i in range(len(points)):
+    for offset in range(offsetLimit):
+        
+        #Going through all the points in the trail
+        for i in range(len(points)):
+            for drone in range(numberOfDrones):
                 #Points to be scouted (don't include transit points)
                 tempPointsToSearch = []
-                for j in range(min(pos[drone][0], points[i][0] + (offset * droneOffset[drone][0])), max(pos[drone][0], points[i][0] + (offset * droneOffset[drone][1]))):
-                    for k in range(min(pos[drone][1], points[i][1] + (offset * droneOffset[drone][2])), max(pos[drone][1], points[i][1] + (offset * droneOffset[drone][3]))):
-                        if j >= 0 and j < mapX and k >= 0 and k < mapY:
-                            if localAreaStatus[j][k] == "not scouted":
-                                tempPointsToSearch.append((j,k))
+                for j in range(min(pos[drone][0], points[i][0] + (offset * droneOffset[drone][0])),
+                               max(pos[drone][0], points[i][0] + (offset * droneOffset[drone][1]))):
+                    for k in range(min(pos[drone][1], points[i][1] + (offset * droneOffset[drone][2])),
+                                   max(pos[drone][1], points[i][1] + (offset * droneOffset[drone][3]))):
+                        if j <= 0:
+                            j = 0
+                        if k <= 0:
+                            k = 0
+                        if j >= mapX:
+                            j = mapX - 1
+                        if k >= mapY:
+                            k = mapY - 1
+                        # if j >= 0 and j < mapX and k >= 0 and k < mapY:
+                        if localAreaStatus[j][k] == "not scouted":
+                            tempPointsToSearch.append((j,k))
+                                
+                if len(tempPointsToSearch) == 0:
+                    extraPoint = (stationX, stationY)
+                    while localAreaStatus[extraPoint[0]][extraPoint[1]] == "scouted" and localAreaStatus.__contains__("not scouted"):
+                        # tryhardCounter += 1
+                        # for extraX in range(mapX):
+                        #     for extraY in range(mapY):
+                        extraPoint = (random.randint(0,mapX-1), random.randint(0,mapY-1))
+
+                    # if tryhardCounter >= mapX * mapY:
+                    #     tryhardCounter = 9999
+                    #
+                    # if tryhardCounter < mapX * mapY:
+                    tempPointsToSearch.append(extraPoint)
+                    
                                 
                 while(len(tempPointsToSearch) != 0):
                     d = 9999
@@ -197,14 +229,34 @@ def pathfollow_algoithm_generator(mapX, mapY, stationX, stationY, numberOfDrones
                                 pos[drone] = (pos[drone][0], pos[drone][1] + 1)
                                 localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
                         
+                        # result[drone].append(pos[drone])
                         if drone == 0:
                             arr1.append(pos[drone])
-                        else:
+                        if drone == 1:
                             arr2.append(pos[drone])
+                        if drone == 2:
+                            arr3.append(pos[drone])
+                        if drone == 3:
+                            arr4.append(pos[drone])
+                        if drone == 4:
+                            arr5.append(pos[drone])
                     
                     tempPointsToSearch.remove(pos[drone])
         
-    result = [arr1, arr2]
+    # I HATE PYTHON
+    # I know it's ugly I'm just fed up with arrays
+    # Feel free to make it nicer :)))
+    
+    if numberOfDrones == 0:
+        result =[arr1]
+    if numberOfDrones == 1:
+        result =[arr1, arr2]
+    if numberOfDrones == 2:
+        result =[arr1, arr2, arr3]
+    if numberOfDrones == 3:
+        result =[arr1, arr2, arr3, arr4]
+    if numberOfDrones == 4:
+        result =[arr1, arr2, arr3, arr4, arr5]
     return result
     
 def moveFromAtoB(pointA, pointB):

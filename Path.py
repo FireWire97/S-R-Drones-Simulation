@@ -1,7 +1,7 @@
 #import map
 from math import cos, asin, sqrt, pi
 import SimulationParameters
-import pandas as pd
+#import pandas as pd
 import numpy as np
 import random
 
@@ -26,20 +26,21 @@ class Path:
         self.mapWidthCoordStep = abs(SimulationParameters.Eborderline - SimulationParameters.Wborderline) / self.mapWidthScaleNR
         self.mapLengthCoordStep = abs(SimulationParameters.Nborderline - SimulationParameters.Sborderline) / self.mapLengthScaleNR
         # Line below works only For positive long and negative lat, if we move from Iceland we have to change that
-        self.scoutedArea = [[Sector(SimulationParameters.Sborderline + j * self.mapLengthCoordStep, SimulationParameters.Wborderline - i * self.mapWidthCoordStep, random.choice(w_speed), random.choice(w_dir)) for j in range(self.mapLengthScale)] for i in range(self.mapWidthScale)]
+        self.scśoutedArea = [[Sector(SimulationParameters.Sborderline + j * self.mapLengthCoordStep, SimulationParameters.Wborderline - i * self.mapWidthCoordStep, random.choice(w_speed), random.choice(w_dir)) for j in range(self.mapLengthScale)] for i in range(self.mapWidthScale)]
 
     def get_weather_data(self, filename):
-        weather_cvs = pd.read_csv(filename, encoding='latin-1')
-        raw_data = weather_cvs.values
-        cols1 = range(2, 4)
-        X1 = raw_data[:, cols1]
-        cols2 = range(4, 6)
-        X2 = raw_data[:, cols2]
-        cols3 = range(6, 8)
-        X3 = raw_data[:, cols3]
-        wind_direction = np.concatenate((X1[:,0],X2[:,0],X3[:,0]))
-        wind_speed = np.concatenate((X1[:,1],X2[:,1],X3[:,1]))
-        return wind_direction, wind_speed
+        return 1
+        # weather_cvs = pd.read_csv(filename, encoding='latin-1')
+        # raw_data = weather_cvs.values
+        # cols1 = range(2, 4)
+        # X1 = raw_data[:, cols1]
+        # cols2 = range(4, 6)
+        # X2 = raw_data[:, cols2]
+        # cols3 = range(6, 8)
+        # X3 = raw_data[:, cols3]
+        # wind_direction = np.concatenate((X1[:,0],X2[:,0],X3[:,0]))
+        # wind_speed = np.concatenate((X1[:,1],X2[:,1],X3[:,1]))
+        # return wind_direction, wind_speed
 
 
     # In this function map is divided into search areas which size is defined by dron detection radius
