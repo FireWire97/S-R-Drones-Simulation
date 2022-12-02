@@ -36,6 +36,42 @@ def coordinationOfPath():
 
     return PointsOnPathData
 
+def getIntigerPoints():
+    points = [
+        (0, 4),
+        (0, 6),
+        (2, 6),
+        (2, 9),
+        (2, 10),
+        (3, 10),
+        (4, 11),
+        (4, 13),
+        (4, 14),
+        (6, 15),
+        (7, 16),
+        (8, 17),
+        (9, 17),
+        (10, 18),
+        (11, 18),
+        (13, 19),
+        (14, 18),
+        (13, 16),
+        (14, 15),
+        (15, 14),
+        (15, 12),
+        (18, 12),
+        (20, 13),
+        (21, 14),
+        (22, 13),
+        (24, 13),
+        (25, 12),
+        (26, 14),
+        (27, 16),
+        (28, 18),
+    ]
+
+    return points
+
 def getRealisticlyLost(mapSizeX,mapSizeY):
     
     floatingPoints = coordinationOfPath()
@@ -95,4 +131,153 @@ def getRealisticlyLost(mapSizeX,mapSizeY):
             lostY = baseY - min(minY, vectorY)
                
     return [lostX, lostY]
+
+def pathfollow_algoithm_generator(mapX, mapY, stationX, stationY, numberOfDrones):
+    localAreaStatus = [["not scouted" for y in range(mapY)] for x in range(mapX)]
+    tempPointsToSearch = []
+    points = getIntigerPoints()
+    result = []
+    pos = [(stationX, stationY) for u in range(numberOfDrones)]
+    localAreaStatus[stationX][stationY] = "scouted"
+    # droneOffset = [[]]
+    arr1 = []
+    arr2 = []
     
+    if numberOfDrones == 0:
+        return 0
+    
+    if numberOfDrones == 1:
+        droneOffset = [(-1,1,-1,1)]
+    elif numberOfDrones == 2:
+        droneOffset = [(-1,-1,1,1),(1,1,-1,-1)]
+    elif numberOfDrones == 3:
+        droneOffset = [(-1,1,-1,1),(-1,0,0,1),(0,1,-1,0)]
+    elif numberOfDrones == 4:
+        droneOffset = [(-1,0,-1,0),(-1,0,0,1),(0,1,-1,0),(0,1,0,1)]
+    else:
+        droneOffset = [(random.randint(-1,1),random.randint(-1,1),random.randint(-1,1),random.randint(-1,1)) for p in range(numberOfDrones)]
+        
+    # Offset from the trail
+    for offset in range(40):
+        for drone in range(numberOfDrones):
+            #Going through all the points in the trail
+            for i in range(len(points)):
+                #Points to be scouted (don't include transit points)
+                tempPointsToSearch = []
+                for j in range(min(pos[drone][0], points[i][0] + (offset * droneOffset[drone][0])), max(pos[drone][0], points[i][0] + (offset * droneOffset[drone][1]))):
+                    for k in range(min(pos[drone][1], points[i][1] + (offset * droneOffset[drone][2])), max(pos[drone][1], points[i][1] + (offset * droneOffset[drone][3]))):
+                        if j >= 0 and j < mapX and k >= 0 and k < mapY:
+                            if localAreaStatus[j][k] == "not scouted":
+                                tempPointsToSearch.append((j,k))
+                                
+                while(len(tempPointsToSearch) != 0):
+                    d = 9999
+                    bestd = 9999
+                    index = 0
+                    #Find closest pint to the pos
+                    for l in range(len(tempPointsToSearch)):
+                        d = abs(pos[drone][0] - tempPointsToSearch[l][0]) + abs(pos[drone][1] - tempPointsToSearch[l][1])
+                        if d < bestd:
+                            index = l
+                            bestd = d
+                
+                    while pos[drone] != tempPointsToSearch[index]:
+                        if pos[drone][0] != tempPointsToSearch[index][0]:
+                            if pos[drone][0] > tempPointsToSearch[index][0]:
+                                pos[drone] = (pos[drone][0] - 1, pos[drone][1])
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                            else:
+                                pos[drone] = (pos[drone][0] + 1, pos[drone][1])
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                        else:
+                            if pos[drone][1] > tempPointsToSearch[index][1]:
+                                pos[drone] = (pos[drone][0], pos[drone][1] - 1)
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                            else:
+                                pos[drone] = (pos[drone][0], pos[drone][1] + 1)
+                                localAreaStatus[pos[drone][0]][pos[drone][1]] = "scouted"
+                        
+                        if drone == 0:
+                            arr1.append(pos[drone])
+                        else:
+                            arr2.append(pos[drone])
+                    
+                    tempPointsToSearch.remove(pos[drone])
+        
+    result = arr1
+    return result
+    
+def moveFromAtoB(pointA, pointB):
+    path = []
+    while pointA != pointB:
+        if pointA[0] != pointB[0]:
+            if pointA[0] > pointB[0]:
+                pointA = (pointA[0] - 1, pointA[1])
+                path.append(pointA)
+            else:
+                pointA = (pointA[0] + 1, pointA[1])
+                path.append(pointA)
+        else:
+            if pointA[1] > pointB[1]:
+                pointA = (pointA[0], pointA[1] - 1)
+                path.append(pointA)
+            else:
+                pointA = (pointA[0], pointA[1] + 1)
+                path.append(pointA)
+      
+    return path
+                
+                
+    def SearchingPointsForDrone(PointsOnPathData, VisitedPointsOnPath):
+        x_coordiateDiff = 0
+    Y_coordiateDiff = 0
+    VisitedPointsOnPath.append((0, 0))
+
+    for i in range(0, len(PointsOnPathData)):
+        x_coordinate = int(PointsOnPathData[i][0])
+        y_coordinate = int(PointsOnPathData[i][1])
+
+        # When i is 0 we are in the beginning of array
+        if i == 0:
+            x_coordinateOLD = int(PointsOnPathData[i][0])
+            y_coordinateOLD = int(PointsOnPathData[i][1])
+        else:
+            x_coordinateOLD = int(PointsOnPathData[i - 1][0])
+            y_coordinateOLD = int(PointsOnPathData[i - 1][1])
+            x_coordiateDiff = x_coordinate - x_coordinateOLD
+            Y_coordiateDiff = y_coordinate - y_coordinateOLD
+
+        if x_coordiateDiff == 1 and Y_coordiateDiff == 1:
+            VisitedPointsOnPath.append(PointsOnPathData[i])
+
+        elif x_coordiateDiff > 1 or Y_coordiateDiff > 1 or Y_coordiateDiff < 0:
+            if Y_coordiateDiff > 1 and (y_coordinate > y_coordinateOLD) and (y_coordinate != y_coordinateOLD):
+                while Y_coordiateDiff > 1:
+                    y_coordinateAdded = int(y_coordinateOLD + 1)
+                    y_coordinateOLD = y_coordinateAdded
+                    x_coordinateAdded = x_coordinate
+                    VisitedPointsOnPath.append((x_coordinateAdded, y_coordinateAdded))
+                    Y_coordiateDiff = int(y_coordinate - y_coordinateAdded)
+
+            elif Y_coordiateDiff < 0 and (y_coordinate < y_coordinateOLD) and (y_coordinate != y_coordinateOLD):
+                while Y_coordiateDiff < 0:
+                    y_coordinateAdded = int(y_coordinateOLD - 1)
+                    y_coordinateOLD = y_coordinateAdded
+                    x_coordinateAdded = x_coordinate
+                    VisitedPointsOnPath.append((x_coordinateAdded, y_coordinateAdded))
+                    Y_coordiateDiff = int(y_coordinate - y_coordinateAdded)
+
+            elif x_coordiateDiff > 0 and (x_coordinate > x_coordinateOLD) and (x_coordinate != x_coordinateOLD):
+                print("eg er her voldd")
+                while x_coordiateDiff > 0:
+                    x_coordinateAdded = int(x_coordinateOLD + 1)
+                    x_coordinateOLD = x_coordinateAdded
+                    y_coordinateAdded = y_coordinate
+                    VisitedPointsOnPath.append((x_coordinateAdded, y_coordinateAdded))
+                    x_coordiateDiff = int(x_coordinate - x_coordinateAdded)
+
+            VisitedPointsOnPath.append((x_coordinate, y_coordinate))
+            y_coordinateOLDTOCompare = y_coordinateAdded
+        else:
+            print("good day")
+    return VisitedPointsOnPath
