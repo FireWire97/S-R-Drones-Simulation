@@ -47,6 +47,15 @@ class BaseStation:
                     )
                 self.listOfMoves.append(moves)
                 
+            self.drones = []
+            for id in range(0, self.numberOfDrones):
+                drone_pos_X = station_pos_x
+                drone_pos_Y = station_pos_y
+                self.areaStatus[drone_pos_X][drone_pos_Y] = "scouted"
+                # SimpleMap.init_drone(drone_pos_X, drone_pos_Y)
+                added_drone = Drone(1, drone_battery_capacity, drone_pos_X, drone_pos_Y, lost_person_x, lost_person_y, station_pos_x, station_pos_y, id, moves=self.listOfMoves[id])
+                self.drones.append(added_drone)
+                
         if search_algorithm == "pathfollow":
             moves = pathfollow_algoithm_generator(
                 size_of_the_map_x,
@@ -56,19 +65,21 @@ class BaseStation:
                 number_of_drones
             )
             self.listOfMoves.append(moves)
+            
+            self.drones = []
+            for id in range(0, self.numberOfDrones):
+                drone_pos_X = station_pos_x
+                drone_pos_Y = station_pos_y
+                self.areaStatus[drone_pos_X][drone_pos_Y] = "scouted"
+                # SimpleMap.init_drone(drone_pos_X, drone_pos_Y)
+                added_drone = Drone(1, drone_battery_capacity, drone_pos_X, drone_pos_Y, lost_person_x, lost_person_y, station_pos_x, station_pos_y, id, moves=self.listOfMoves[0][id])
+                self.drones.append(added_drone)
 
         """++++++++++++++++++++++++++++++++++++++++++
          PUT THE NEW ALGORITHM HERE AND APPEND THE PATH TO THE listOfMoves FOR EVERY DRONE OR GUARANTEE TO RUN THE CODE ONLY WITH VALID PARAMETERS
         ++++++++++++++++++++++++++++++++++++++++++"""
 
-        self.drones = []
-        for id in range(0, self.numberOfDrones):
-            drone_pos_X = station_pos_x
-            drone_pos_Y = station_pos_y
-            self.areaStatus[drone_pos_X][drone_pos_Y] = "scouted"
-            # SimpleMap.init_drone(drone_pos_X, drone_pos_Y)
-            added_drone = Drone(1, drone_battery_capacity, drone_pos_X, drone_pos_Y, lost_person_x, lost_person_y, station_pos_x, station_pos_y, id, moves=self.listOfMoves[id])
-            self.drones.append(added_drone)
+        
 
     def getPositionOfDrones(self):
         """Get the positions of the drones

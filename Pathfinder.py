@@ -204,7 +204,7 @@ def pathfollow_algoithm_generator(mapX, mapY, stationX, stationY, numberOfDrones
                     
                     tempPointsToSearch.remove(pos[drone])
         
-    result = arr1
+    result = [arr1, arr2]
     return result
     
 def moveFromAtoB(pointA, pointB):

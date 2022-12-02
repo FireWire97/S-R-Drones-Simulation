@@ -18,8 +18,8 @@ from Pathfinder import getRealisticlyLost
 
 
 results = []
-nuberOfSimulations =20
-isSimulationShown = False
+nuberOfSimulations = 1
+isSimulationShown = True
 isRandomLocation = True
 
 
@@ -37,7 +37,7 @@ stationY = 14
 lostX = 3
 lostY = 11
 # NUMBER OF DRONES
-numberOfDrones = 1
+numberOfDrones = 2
 batteryCapacity = 400
 
 
