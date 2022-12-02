@@ -5,10 +5,11 @@ from pyplotmap import PyplotMap
 import random
 from drone import Drone
 from snake import snake_algoithm_generator
+from Pathfinder import pathfollow_algoithm_generator
 
 
 class BaseStation:
-    def __init__(self, size_of_the_map_x, size_of_the_map_y, number_of_drones, station_pos_x, station_pos_y, lost_person_x, lost_person_y, search_algorithm="snake", drone_battery_capacity=500):
+    def __init__(self, size_of_the_map_x, size_of_the_map_y, number_of_drones, station_pos_x, station_pos_y, lost_person_x, lost_person_y, search_algorithm="pathfollow", drone_battery_capacity=500):
         self.mapX = size_of_the_map_x
         self.mapY = size_of_the_map_y
         self.stationX = station_pos_x
@@ -45,6 +46,15 @@ class BaseStation:
                         0,
                     )
                 self.listOfMoves.append(moves)
+                
+        if search_algorithm == "pathfollow":
+            moves = pathfollow_algoithm_generator(
+                size_of_the_map_x,
+                size_of_the_map_y,
+                station_pos_x,
+                station_pos_y
+            )
+            self.listOfMoves.append(moves)
 
         """++++++++++++++++++++++++++++++++++++++++++
          PUT THE NEW ALGORITHM HERE AND APPEND THE PATH TO THE listOfMoves FOR EVERY DRONE OR GUARANTEE TO RUN THE CODE ONLY WITH VALID PARAMETERS
