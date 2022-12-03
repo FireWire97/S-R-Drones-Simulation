@@ -37,11 +37,11 @@ stationY = 14
 lostX = 3
 lostY = 11
 # NUMBER OF DRONES
-numberOfDrones = 2
+numberOfDrones = 1
 batteryCapacity = 400
 # SEARCH STRATEGY
 #searchAlgorithm = "snake"
-searchAlgorithm = "pathfollow"
+searchAlgorithm = "pathfollow" #Max 4 drones
 
 
 for i in range(nuberOfSimulations):
@@ -83,5 +83,6 @@ for i in range(nuberOfSimulations):
 
     except:
         results.append(tickCount)
+        print("Simulation #", i+1, " finished with ", tickCount, " number of ticks")
 
 print(results)
